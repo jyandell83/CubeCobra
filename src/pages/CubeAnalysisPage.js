@@ -126,42 +126,49 @@ const CubeAnalysisPage = ({ cube, cubeID, defaultFilterText }) => {
     setCards(cube.cards.filter(val));
   };
 
-  return (
+  console.log(cube.cards, 'cards?');
+
+  const content = 
     <CubeLayout cube={cube} cubeID={cubeID} canEdit={false} activeLink="analysis">
-      <DynamicFlash />
-      <Row className="mt-3">
-        <Col xs="12" lg="2">
-          <Nav vertical="lg" pills className="justify-content-sm-start justify-content-center mb-3">
-            {analytics.map((analytic, index) => (
-              <NavLink key={analytic.name} active={activeTab === index} onClick={() => setActiveTab(index)} href="#">
-                {analytic.name}
-              </NavLink>
-            ))}
-          </Nav>
-        </Col>
-        <Col xs="12" lg="10" className="overflow-x">
-          <Card className="mb-3">
-            <CardBody>
-              <NavLink href="#" onClick={toggleFilterCollapse}>
-                <h5>{filterCollapseOpen ? 'Hide Filter' : 'Show Filter'}</h5>
-              </NavLink>
-              <FilterCollapse
-                defaultFilterText={defaultFilterText}
-                filter={filter}
-                setFilter={updateFilter}
-                numCards={cards.length}
-                isOpen={filterCollapseOpen}
-              />
-            </CardBody>
-          </Card>
-          <Card>
-            <CardBody>
-              <ErrorBoundary>{analytics[activeTab].component(cards, cube, adds, cuts, loading)}</ErrorBoundary>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    </CubeLayout>
+    <DynamicFlash />
+    <Row className="mt-3">
+      <Col xs="12" lg="2">
+        <Nav vertical="lg" pills className="justify-content-sm-start justify-content-center mb-3">
+          {analytics.map((analytic, index) => (
+            <NavLink key={analytic.name} active={activeTab === index} onClick={() => setActiveTab(index)} href="#">
+              {analytic.name}
+            </NavLink>
+          ))}
+        </Nav>
+      </Col>
+      <Col xs="12" lg="10" className="overflow-x">
+        <Card className="mb-3">
+          <CardBody>
+            <NavLink href="#" onClick={toggleFilterCollapse}>
+              <h5>{filterCollapseOpen ? 'Hide Filter' : 'Show Filter'}</h5>
+            </NavLink>
+            <FilterCollapse
+              defaultFilterText={defaultFilterText}
+              filter={filter}
+              setFilter={updateFilter}
+              numCards={cards.length}
+              isOpen={filterCollapseOpen}
+            />
+          </CardBody>
+        </Card>
+        <Card>
+          <CardBody>
+            <ErrorBoundary>{analytics[activeTab].component(cards, cube, adds, cuts, loading)}</ErrorBoundary>
+          </CardBody>
+        </Card>
+      </Col>
+    </Row>
+  </CubeLayout>;
+
+  return (
+    <div>
+      {cube.cards.length === 0 ? "no cards" : content}
+    </div>
   );
 };
 
